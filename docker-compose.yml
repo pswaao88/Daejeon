@@ -8,18 +8,18 @@ services:
     ports:
       - "8081:8081"
     environment:
-      # .env 파일에서 MYSQL_USER와 MYSQL_PASSWORD 값을 가져옵니다.
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    # MySQL DB 컨테이너의 상태가 'healthy'가 될 때까지 기다립니다.
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
 
   # MySQL 데이터베이스 서비스
   mysql_db:
     image: mysql:8.0
     container_name: daejeon_db
     environment:
-      # .env 파일에서 정의된 변수들을 가져와 MySQL 컨테이너 환경을 설정합니다.
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ai_challenge_db
       MYSQL_USER: ${MYSQL_USER}
@@ -28,6 +28,13 @@ services:
       - "4000:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    # DB 컨테이너의 상태를 주기적으로 확인하는 healthcheck 설정
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 volumes:
   mysql_data:
