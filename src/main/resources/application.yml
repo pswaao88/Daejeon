@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: AI-Challenge
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 로컬에 설치된 MySQL 서버에 연결합니다.
+    url: jdbc:mysql://localhost:3306/ai_challenge_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+server:
+  port: 8081

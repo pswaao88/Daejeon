@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: AI-Challenge
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Docker Compose 내부 네트워크를 통해 'mysql_db' 컨테이너에 연결합니다.
+    url: jdbc:mysql://mysql_db:3306/ai_challenge_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+server:
+  port: 8081

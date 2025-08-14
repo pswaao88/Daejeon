@@ -1,0 +1,44 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.Daejeon'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring Boot 기본 의존성
+	implementation 'org.springframework.boot:spring-boot-starter'
+	// 웹 애플리케이션 개발에 필요한 의존성 (RESTful API)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// JPA를 이용한 데이터베이스 연동
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// 유효성 검사 (validation)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Lombok (보일러플레이트 코드 자동 생성)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// MySQL JDBC 드라이버 의존성 (H2 대신 MySQL을 사용)
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// 테스트 관련 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

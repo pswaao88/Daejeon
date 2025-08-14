@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Spring Boot 애플리케이션 서비스
+  app:
+    # Dockerfile을 사용하여 현재 디렉토리에서 이미지를 빌드합니다.
+    build: .
+    container_name: spring-app
+    ports:
+      # 호스트의 8081 포트를 컨테이너의 8081 포트에 연결합니다.
+      - "8081:8081"
+    environment:
+      # application-docker.yml에 정의된 환경 변수를 설정합니다.
+      # 이 값들은 'app' 컨테이너가 'mysql_db' 컨테이너에 접근하는 데 사용됩니다.
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    # 'app' 컨테이너는 'mysql_db' 컨테이너가 시작된 후에 시작됩니다.
+    depends_on:
+      - mysql_db
+
+  # MySQL 데이터베이스 서비스
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      # MySQL 루트 비밀번호와 데이터베이스 이름을 설정합니다.
+      # 이 값들은 Spring Boot의 application.yml에 있는 값과 일치해야 합니다.
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ai_challenge_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      # 호스트의 4000 포트를 컨테이너의 3306 포트에 연결합니다.
+      - "4000:3306"
+    volumes:
+      # 데이터를 보존하기 위해 호스트에 볼륨을 생성합니다.
+      - mysql_data:/var/lib/mysql
+
+# Docker 볼륨을 정의합니다.
+volumes:
+  mysql_data:
