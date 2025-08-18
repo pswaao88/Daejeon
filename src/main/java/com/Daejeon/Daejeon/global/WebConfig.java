@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")  // /api로 시작하는 모든 경로에 대해
             .allowedOrigins(
-                "http://localhost:5050",        // localhost 기본 포트 (HTTP)
+                "http://localhost:5500",        // localhost 기본 포트 (HTTP)
                 "http://localhost:3000"
             )
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
